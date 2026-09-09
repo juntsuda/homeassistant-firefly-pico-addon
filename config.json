@@ -1,0 +1,41 @@
+{
+  "name": "Firefly-Pico",
+  "version": "1.12.0",
+  "slug": "firefly_pico",
+  "description": "Mobile-optimized companion web app for Firefly III — fast expense logging, tags, templates and an AI assistant for quick transaction entry",
+  "url": "https://github.com/override80/homeassistant-firefly-pico-addon",
+  "arch": ["amd64", "aarch64"],
+  "startup": "application",
+  "boot": "auto",
+  "init": false,
+  "ports": {
+    "80/tcp": 6977
+  },
+  "ports_description": {
+    "80/tcp": "Firefly-Pico web UI"
+  },
+  "options": {
+    "firefly_url": "http://db21ed7f-fireflyiii.local.hass.io:8080",
+    "timezone": "Europe/Rome",
+    "assistant_llm_endpoint": "",
+    "assistant_llm_model": "",
+    "assistant_llm_api_key": "",
+    "assistant_llm_context": "",
+    "assistant_transcription_endpoint": "",
+    "assistant_transcription_model": "",
+    "assistant_transcription_api_key": "",
+    "assistant_transcription_language": ""
+  },
+  "schema": {
+    "firefly_url": "url",
+    "timezone": "str",
+    "assistant_llm_endpoint": "str?",
+    "assistant_llm_model": "str?",
+    "assistant_llm_api_key": "password?",
+    "assistant_llm_context": "str?",
+    "assistant_transcription_endpoint": "str?",
+    "assistant_transcription_model": "str?",
+    "assistant_transcription_api_key": "password?",
+    "assistant_transcription_language": "str?"
+  }
+}
