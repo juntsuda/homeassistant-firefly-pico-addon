@@ -37,4 +37,24 @@ rm -rf /var/www/html/database/data
 ln -s /data/database /var/www/html/database/data
 chown -R www-data:www-data /data/database
 
-exec su-exec www-data /docker-entrypoint.d/start.sh run
+# Run the original entrypoint (and supervisord) as root, not su-exec'd to www-data:
+# every supervisor-managed program uses stdout_logfile=/dev/stdout, and reopening that
+# path by a non-root process fails with EACCES under this container runtime. Each
+# program still drops to www-data itself via its own `user=www-data` directive in
+# /etc/supervisor.d/*.ini — this only changes who runs supervisord's own dispatcher
+# setup, not the actual app processes' privileges.
+#
+# nginx hits the same EACCES itself: its own config re-opens /dev/stdout and
+# /dev/stderr by path (nginx.conf's access_log/error_log directives) at its own
+# process's (www-data) privilege level, since supervisord already dropped to
+# www-data before exec'ing it. Redirect those to real files instead and tail them
+# into our own (root-held, already-open) stdout so `docker logs` still shows them.
+mkdir -p /tmp/nginx
+: > /tmp/nginx/access.log
+: > /tmp/nginx/error.log
+chown www-data:www-data /tmp/nginx/access.log /tmp/nginx/error.log
+sed -i 's#access_log /dev/stdout#access_log /tmp/nginx/access.log#' /etc/nginx/nginx.conf
+sed -i 's#error_log /dev/stderr#error_log /tmp/nginx/error.log#' /etc/nginx/nginx.conf
+tail -F /tmp/nginx/access.log /tmp/nginx/error.log &
+
+exec /docker-entrypoint.d/start.sh run

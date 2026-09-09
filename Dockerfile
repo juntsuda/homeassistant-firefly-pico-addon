@@ -1,13 +1,13 @@
 # Wraps the upstream, prebuilt Firefly-Pico image (https://github.com/cioraneanu/firefly-pico)
 # rather than rebuilding it from source — same pattern as this host's other wrapped-image
-# add-ons. su-exec lets the entrypoint do root-only setup (SQLite persistence under /data,
-# injecting Supervisor options as env vars) and then drop back to the image's own www-data
-# user before handing off, matching upstream's own privilege model exactly.
+# add-ons. Runs as root (see run.sh) to do setup (SQLite persistence under /data, injecting
+# Supervisor options as env vars) and to run supervisord itself — each of its managed
+# programs still drops to the image's own www-data user via its own `user=` directive.
 FROM cioraneanu/firefly-pico:1.12.0
 
 USER root
 
-RUN apk add --no-cache bash jq su-exec
+RUN apk add --no-cache bash jq
 
 COPY run.sh /run.sh
 RUN chmod +x /run.sh
