@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.12.1
+
+- Upgrade the wrapped upstream image to `cioraneanu/firefly-pico:1.12.1` (patch release: bug fixes for split transactions, the account selector, dark-mode notes, virtual balance display, Greek translation; image rebased on Alpine 3.24 / PHP 8.4). Add-on wrapper unchanged: nginx still listens on port 80 inside the container.
+
 ## 1.12.0
 
 - Initial release: wraps upstream `cioraneanu/firefly-pico:1.12.0`, points at an existing

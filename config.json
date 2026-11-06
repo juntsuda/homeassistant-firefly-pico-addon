@@ -1,6 +1,6 @@
 {
   "name": "Firefly-Pico",
-  "version": "1.12.0",
+  "version": "1.12.1",
   "slug": "firefly_pico",
   "description": "Mobile-optimized companion web app for Firefly III — fast expense logging, tags, templates and an AI assistant for quick transaction entry",
   "url": "https://github.com/override80/homeassistant-firefly-pico-addon",
