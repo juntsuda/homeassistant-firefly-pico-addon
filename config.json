@@ -8,6 +8,12 @@
   "startup": "application",
   "boot": "auto",
   "init": false,
+
+  "ingress": true,
+  "ingress_port": 80,
+  "panel_icon": "mdi:cash-multiple",
+  "panel_title": "Firefly-Pico",
+  
   "ports": {
     "80/tcp": 6977
   },
